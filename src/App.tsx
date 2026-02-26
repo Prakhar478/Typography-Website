@@ -256,12 +256,12 @@ function HeroSection() {
             id="hero-heading"
             className="text-balance text-4xl font-display tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl animate-fade-up animate-delay-100"
           >
-            <span className="block text-gradient">Interactive Typography</span>
+            <span className="block text-gradient">Typography</span>
             
           </h1>
           <p className="max-w-xl text-sm md:text-base text-zinc-400 animate-fade-up animate-delay-200">
             Explore the anatomy, psychology, and expressive power of type through a series of
-            interactive experiments designed for the Graphics Animation Tools course.
+            interactive experiments.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-2">
             <a href="#playground" className="primary-button">
