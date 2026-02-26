@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-slate-950 text-zinc-100 font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-teal-400/40 text-white;
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply min-h-screen bg-gradient-to-b from-slate-950 via-slate-950 to-slate-950 text-zinc-100;
+  }
+
+  .section-shell {
+    @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 py-16 md:py-24;
+  }
+
+  .section-eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.3em] text-teal-300/80 mb-3;
+  }
+
+  .section-title {
+    @apply text-3xl md:text-4xl lg:text-5xl font-display text-zinc-50 tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply mt-4 max-w-2xl text-sm md:text-base text-zinc-400;
+  }
+
+  .card-surface {
+    @apply rounded-2xl border border-zinc-800/80 bg-gradient-to-br from-slate-900/80 via-slate-950/90 to-slate-900/80 shadow-[0_24px_80px_rgba(0,0,0,0.6)];
+  }
+
+  .pill {
+    @apply inline-flex items-center rounded-full border border-zinc-700/80 bg-slate-900/80 px-3 py-1 text-xs font-medium text-zinc-200 shadow-sm;
+  }
+
+  .nav-link {
+    @apply text-xs md:text-sm font-medium text-zinc-400 hover:text-zinc-50 transition-colors;
+  }
+
+  .primary-button {
+    @apply inline-flex items-center justify-center rounded-full bg-teal-400 px-5 py-2 text-sm font-semibold text-slate-950 shadow-lg shadow-teal-500/20 transition-transform transition-shadow hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-300/80 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950;
+  }
+
+  .ghost-button {
+    @apply inline-flex items-center justify-center rounded-full border border-zinc-700/80 bg-slate-950/40 px-4 py-1.5 text-xs font-medium text-zinc-200 transition-colors hover:border-teal-300/70 hover:text-teal-300;
+  }
+}
+
+@layer utilities {
+  .gradient-border {
+    border-image: linear-gradient(
+        to right,
+        rgba(61, 213, 198, 0.8),
+        rgba(245, 197, 106, 0.8),
+        rgba(244, 114, 182, 0.9)
+      )
+      1;
+  }
+
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-teal-300 via-amber-200 to-pink-400;
+  }
+}
+
