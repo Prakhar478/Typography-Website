@@ -22,7 +22,7 @@ const EMOTIONS: EmotionConfig[] = [
     fontStack: 'Pacifico, "Brush Script MT", cursive',
     textClasses:
       'tracking-wide font-medium text-yellow-100 drop-shadow-[0_0_25px_rgba(250,204,21,0.7)]',
-    animationClasses: 'animate-soft-pulse',
+    animationClasses: '',
   },
   {
     id: 'fear',
@@ -34,7 +34,7 @@ const EMOTIONS: EmotionConfig[] = [
     fontStack: '"Roboto Mono", "Inconsolata", "Courier New", monospace',
     textClasses:
       'tracking-[0.3em] font-semibold uppercase text-purple-200 drop-shadow-[0_0_20px_rgba(168,85,247,0.7)]',
-    animationClasses: 'animate-jitter',
+    animationClasses: '',
   },
   {
     id: 'anger',

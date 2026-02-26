@@ -1,4 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [inView, setInView] = useState(false)
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setInView(true); observer.disconnect() } },
+      { threshold }
+    )
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [threshold])
+  return { ref, inView }
+}
 import './index.css'
 import { TypographyAnatomy } from './components/TypographyAnatomy'
 import { TypefaceClassification } from './components/TypefaceClassification'
@@ -9,6 +23,7 @@ import { EmotionCanvas } from './components/EmotionCanvas'
 import { BrandAnalysis } from './components/BrandAnalysis'
 import { SiteFooter } from './components/SiteFooter'
 import { PosterShowcase } from './components/PosterShowcase'
+
 
 type SectionId =
   | 'hero'
@@ -34,6 +49,25 @@ const sections: { id: SectionId; label: string }[] = [
 
 function NavBar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState<SectionId | ''>('')
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id as SectionId)
+          }
+        })
+      },
+      { rootMargin: '-40% 0px -55% 0px' }
+    )
+    sections.forEach(({ id }) => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 border-b border-zinc-800/80 bg-slate-950/85 backdrop-blur-md">
@@ -42,7 +76,7 @@ function NavBar() {
         aria-label="Primary"
       >
         <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-teal-300 via-amber-200 to-pink-400 text-xs font-semibold text-slate-950 shadow-lg">
+        <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-tr from-teal-300 via-amber-200 to-pink-400 text-xs font-semibold text-slate-950 shadow-lg transition-transform duration-300 hover:scale-110 hover:rotate-6">
             T
           </div>
           <div className="flex flex-col">
@@ -59,7 +93,11 @@ function NavBar() {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="nav-link"
+                  className={`nav-link transition-colors duration-200 ${
+                    activeSection === section.id
+                      ? 'text-teal-300 font-semibold'
+                      : ''
+                  }`}
                 >
                   {section.label}
                 </a>
@@ -115,7 +153,11 @@ function NavBar() {
               <li key={section.id}>
                 <a
                   href={`#${section.id}`}
-                  className="nav-link block py-1.5"
+                  className={`nav-link block py-1.5 transition-colors duration-200 ${
+                    activeSection === section.id
+                      ? 'text-teal-300 font-semibold'
+                      : ''
+                  }`}
                   onClick={() => setIsOpen(false)}
                 >
                   {section.label}
@@ -159,24 +201,40 @@ function SectionShell({
         ? 'bg-slate-950/90'
         : 'bg-slate-950'
 
-  return (
-    <section
-      id={id}
-      className={`section-shell ${backgroundClasses}`}
-      aria-labelledby={id ? `${id}-heading` : undefined}
-    >
-      <div className="space-y-10 md:space-y-12">
-        <header className="max-w-3xl">
-          {eyebrow && <p className="section-eyebrow">{eyebrow}</p>}
-          <h2 id={id ? `${id}-heading` : undefined} className="section-title">
-            {title}
-          </h2>
-          {subtitle && <p className="section-subtitle">{subtitle}</p>}
-        </header>
-        {children}
-      </div>
-    </section>
-  )
+        const { ref, inView } = useInView()
+
+        return (
+          <section
+            id={id}
+            className={`section-shell ${backgroundClasses}`}
+            aria-labelledby={id ? `${id}-heading` : undefined}
+          >
+            <div className="space-y-10 md:space-y-12">
+              <header
+                ref={ref}
+                className="max-w-3xl"
+              >
+                {eyebrow && (
+                  <p className={`section-eyebrow transition-all duration-500 ${inView ? 'animate-fade-in' : 'opacity-0'}`}>
+                    {eyebrow}
+                  </p>
+                )}
+                <h2
+                  id={id ? `${id}-heading` : undefined}
+                  className={`section-title transition-all duration-700 ${inView ? 'animate-fade-up' : 'opacity-0'}`}
+                >
+                  {title}
+                </h2>
+                {subtitle && (
+                  <p className={`section-subtitle transition-all duration-700 animate-delay-200 ${inView ? 'animate-fade-up' : 'opacity-0'}`}>
+                    {subtitle}
+                  </p>
+                )}
+              </header>
+              {children}
+            </div>
+          </section>
+        )
 }
 
 function HeroSection() {
@@ -193,15 +251,15 @@ function HeroSection() {
 
       <div className="relative flex flex-col gap-10 md:flex-row md:items-center">
         <div className="flex-1 space-y-6">
-          <p className="section-eyebrow">Typography as an interactive system</p>
+        <p className="section-eyebrow animate-fade-in">Typography as an interactive system</p>
           <h1
             id="hero-heading"
-            className="text-balance text-4xl font-display tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl"
+            className="text-balance text-4xl font-display tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl animate-fade-up animate-delay-100"
           >
             <span className="block text-gradient">Interactive Typography</span>
             
           </h1>
-          <p className="max-w-xl text-sm md:text-base text-zinc-400">
+          <p className="max-w-xl text-sm md:text-base text-zinc-400 animate-fade-up animate-delay-200">
             Explore the anatomy, psychology, and expressive power of type through a series of
             interactive experiments designed for the Graphics Animation Tools course.
           </p>
@@ -219,7 +277,7 @@ function HeroSection() {
           </div>
         </div>
 
-        <div className="card-surface relative flex-1 overflow-hidden border border-zinc-700/80 px-6 py-7 sm:px-8 sm:py-9">
+        <div className="card-surface relative flex-1 overflow-hidden border border-zinc-700/80 px-6 py-7 sm:px-8 sm:py-9 animate-slide-left animate-delay-300">
           <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(61,213,198,0.22),_transparent_55%),radial-gradient(circle_at_bottom,_rgba(244,114,182,0.2),_transparent_55%)] opacity-80" />
           <div className="relative space-y-4">
             <div className="flex items-baseline justify-between text-xs text-zinc-400">

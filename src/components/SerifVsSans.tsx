@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 type SerifSansView = 'serif' | 'sans'
 
@@ -14,6 +14,18 @@ const SANS_TEXT = {
 
 export function SerifVsSans() {
   const [view, setView] = useState<SerifSansView>('serif')
+  const [isTransitioning, setIsTransitioning] = useState(false)
+  const prevView = useRef(view)
+
+  const handleViewChange = (newView: SerifSansView) => {
+    if (newView === view) return
+    setIsTransitioning(true)
+    setTimeout(() => {
+      setView(newView)
+      prevView.current = newView
+      setIsTransitioning(false)
+    }, 250)
+  }
 
   const isSerif = view === 'serif'
 
@@ -31,7 +43,7 @@ export function SerifVsSans() {
           className={`rounded-full px-3 py-1.5 font-medium transition-colors ${
             isSerif ? 'bg-teal-400 text-slate-950' : 'text-zinc-300 hover:text-zinc-50'
           }`}
-          onClick={() => setView('serif')}
+          onClick={() => handleViewChange('serif')}
         >
           Serif in context
         </button>
@@ -42,13 +54,17 @@ export function SerifVsSans() {
           className={`rounded-full px-3 py-1.5 font-medium transition-colors ${
             !isSerif ? 'bg-teal-400 text-slate-950' : 'text-zinc-300 hover:text-zinc-50'
           }`}
-          onClick={() => setView('sans')}
+          onClick={() => handleViewChange('sans')}
         >
           Sans-serif in context
         </button>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-10">
+      <div
+        className={`grid gap-6 md:grid-cols-[minmax(0,1.3fr)_minmax(0,1.1fr)] lg:gap-10 transition-all duration-300 ${
+          isTransitioning ? 'opacity-0 translate-y-2' : 'opacity-100 translate-y-0'
+        }`}
+      >
         {/* Visual specimens */}
         <section
           aria-label={isSerif ? 'Serif specimen' : 'Sans-serif specimen'}
