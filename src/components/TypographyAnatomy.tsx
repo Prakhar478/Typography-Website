@@ -166,7 +166,28 @@ export function TypographyAnatomy() {
 
         {/* LINES OVERLAY */}
         <div className="absolute inset-0" style={{ pointerEvents: 'none' }}>
-          
+
+          {/* Counter circle — sits inside the "o" of Typography */}
+          <div
+            className="pointer-events-auto absolute cursor-pointer"
+            style={{ top: '30px', left: '130px', width: '28px', height: '28px' }}
+            onMouseEnter={() => setActiveId('counter')}
+            aria-hidden="true"
+          >
+            <svg width="28" height="28" viewBox="0 0 28 28">
+              <circle
+                cx="14"
+                cy="14"
+                r="13"
+                fill={activeId === 'counter' ? 'rgba(167,139,250,0.3)' : 'transparent'}
+                stroke={activeId === 'counter' ? '#a78bfa' : 'rgba(113,113,122,0.4)'}
+                strokeWidth="1.5"
+                strokeDasharray="3 2"
+                style={{ transition: 'all 0.2s' }}
+              />
+            </svg>
+          </div>
+
           {/* Ascender line */}
           <div
             className={`pointer-events-auto absolute left-0 right-0 h-px transition-all cursor-pointer ${
@@ -276,6 +297,15 @@ export function TypographyAnatomy() {
         >
           Descender
         </div>
+        <div
+          className={`cursor-pointer transition-colors whitespace-nowrap ${
+            activeId === 'counter' ? 'text-violet-300 font-semibold' : 'hover:text-violet-300'
+          }`}
+          onMouseEnter={() => setActiveId('counter')}
+          style={{ position: 'relative', top: '8px' }}
+        >
+          Counter
+        </div>
       </div>
     </div>
 
@@ -342,6 +372,49 @@ export function TypographyAnatomy() {
           Comfortable leading gives each line room to breathe, useful for body copy and calm
           reading experiences.
         </p>
+      </div>
+    </div>
+  </section>
+
+  {/* SECTION 4 · Counter examples */}
+  <section
+    aria-label="Counter examples"
+    className="mt-8 border-t border-zinc-800/80 pt-6"
+    onMouseEnter={() => setActiveId('counter')}
+  >
+    <p className="text-[10px] uppercase tracking-[0.26em] text-zinc-500">Counter</p>
+    <p className="mt-1 text-xs text-zinc-400">
+      Enclosed or partially enclosed space inside letterforms.
+    </p>
+
+    <div className="mt-4 rounded-xl border border-zinc-800/80 bg-slate-950/80 px-4 py-4">
+      <div className="flex items-center gap-6">
+        {/* Letter O with circle highlighting the counter */}
+        <div className="relative flex items-center justify-center" style={{ width: 80, height: 80 }}>
+          <span className="font-display text-7xl leading-none text-zinc-100" style={{ lineHeight: 1 }}>o</span>
+          {/* Circle overlay marking the counter space */}
+          <svg
+            className="absolute inset-0 pointer-events-none"
+            width="80"
+            height="80"
+            viewBox="0 0 80 80"
+          >
+            <circle
+              cx="40"
+              cy="42"
+              r="14"
+              fill={activeId === 'counter' ? 'rgba(167,139,250,0.25)' : 'transparent'}
+              stroke={activeId === 'counter' ? '#a78bfa' : '#52525b'}
+              strokeWidth="1.5"
+              strokeDasharray="4 2"
+              style={{ transition: 'all 0.2s' }}
+            />
+          </svg>
+        </div>
+
+        <div className="flex-1 text-xs text-zinc-400 leading-relaxed">
+          The circle marks the <span className={`font-semibold transition-colors duration-200 ${activeId === 'counter' ? 'text-violet-300' : 'text-zinc-300'}`}>counter</span> — the enclosed white space inside the letter. Open counters improve legibility, especially at small sizes or on dark backgrounds.
+        </div>
       </div>
     </div>
   </section>
