@@ -46,9 +46,7 @@ function NavBar() {
             T
           </div>
           <div className="flex flex-col">
-            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-zinc-400">
-              Graphics Animation Tools
-            </span>
+            
             <span className="text-sm font-medium text-zinc-100">
               Interactive Typography Studio
             </span>
@@ -127,7 +125,7 @@ function NavBar() {
           </ul>
           <div className="mt-4 flex flex-col gap-1 text-[11px] text-zinc-400">
             <span className="font-medium text-zinc-200">
-              Typography Assignment · Graphics Animation Tools
+              Typography Assignment
             </span>
             <span>Instructor: Pankaj Badoni</span>
           </div>
@@ -201,7 +199,7 @@ function HeroSection() {
             className="text-balance text-4xl font-display tracking-tight text-zinc-50 sm:text-5xl lg:text-6xl"
           >
             <span className="block text-gradient">Interactive Typography</span>
-            <span className="mt-2 block text-zinc-300">for designers & motion artists</span>
+            
           </h1>
           <p className="max-w-xl text-sm md:text-base text-zinc-400">
             Explore the anatomy, psychology, and expressive power of type through a series of

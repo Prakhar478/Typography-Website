@@ -4,9 +4,7 @@ export function SiteFooter() {
       <div className="section-shell py-8 md:py-10">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.26em] text-zinc-500">
-              Graphics Animation Tools
-            </p>
+            
             <p className="mt-1 text-sm text-zinc-100">
               Interactive Typography Assignment · Instructor: Pankaj Badoni
             </p>
